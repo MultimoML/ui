@@ -1,0 +1,6 @@
+# Cache
+.parcel-cache
+dist
+
+# NodeJS
+node_modules

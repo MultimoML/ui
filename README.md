@@ -2,13 +2,37 @@
 
 RSOcena's UI: [rsocena.ml](https://rsocena.ml)
 
-TODO: Project description
+## Project description
+
+Data visualisation website. Made using p5, Bootstrap, Plotly in TypeScript with Parcel.
 
 Author: [Miha Krumpestar](https://github.com/mk2376)
 
 ## Setup/installation
 
-TODO
+Npm:
+```
+# After clone
+npm install
+
+# Deps (only for dev):
+npm install -g typescript
+npm install -g parcel
+
+npm install --save p5 @types/p5
+npm install --save @types/bootstrap
+npm install --save plotly.js-dist-min @types/plotly.js
+```
+
+Run:
+```
+npm run start
+```
+
+Build:
+```
+npm run build
+```
 
 ## License
 

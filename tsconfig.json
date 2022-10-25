@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+      "strict": true,
+      "target": "es2021",
+      "module": "system",
+      "noImplicitAny": true,
+      "allowJs": true,
+      "checkJs": true,
+      //"outDir": "./dist",
+      "isolatedModules": true,
+      // "outFile": "/build/tsc.js",
+      "removeComments": true,
+      "preserveConstEnums": true,
+      "sourceMap": true,
+      "moduleResolution": "node",
+      "esModuleInterop": false,
+      "allowUmdGlobalAccess": true,
+      "experimentalDecorators": true,
+      "types": [
+        // global types
+      ]
+  },
+  "include": ["src/tsc/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
