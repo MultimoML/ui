@@ -20,8 +20,8 @@ npm install -g typescript
 npm install -g parcel
 
 npm install --save p5 @types/p5
-npm install --save @types/bootstrap
-npm install --save plotly.js-dist-min @types/plotly.js
+npm install --save bootstrap @types/bootstrap
+npm install --save plotly.js-dist-min @types/plotly.js-dist-min
 ```
 
 Run:
