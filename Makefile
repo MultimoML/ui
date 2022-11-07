@@ -10,3 +10,21 @@ build:
 
 serve:
 	node ./dist/server/entry.mjs
+
+test: # Do not use
+	make build
+	docker build . -t rsocena/ui:latest
+	docker run -it -p 3000:3000 --name ui rsocena/ui:latest
+	docker ps -a
+	curl -i localhost:3000
+	docker kill ui
+	docker rm ui --force
+
+	docker image ls
+	docker image prune -a
+
+performance-test:
+	lighthouse http://localhost:3000/ --view
+
+portainer-on-podman:
+	sudo podman run -d -p 9443:9443 --privileged -v /run/podman/podman.sock:/var/run/docker.sock:Z portainer/portainer-ce
