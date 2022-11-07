@@ -1,12 +1,9 @@
 name: Build and deploy Docker image
 
-on: 
+on:
   push:
     branches:
-      - 'release'
-  label:
-    types:
-      - created
+      - main
 
 env:
   REGISTRY: ghcr.io
@@ -14,6 +11,8 @@ env:
 
 jobs:
   build-and-push-image:
+    if: "contains(github.event.head_commit.message, 'build')"
+    name: Build and push image to Github registry
     runs-on: ubuntu-latest
     permissions:
       contents: read
