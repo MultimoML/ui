@@ -1,0 +1,52 @@
+---
+
+import logo from '/favicon.png';
+
+const navLinks = [
+  {
+    id: "/demo",
+    title: "Demo",
+  },
+  {
+    id: "/graphql",
+    title: "GraphQL",
+  },
+  {
+    id: "https://github.com/RSOcena/ui",
+    title: "Source Code",
+  }
+];
+
+---
+
+<nav class="navbar py-2 relative flex items-center w-full justify-between">
+  <div class="px-6 w-full flex flex-wrap items-center justify-between">
+    <div class="flex items-center h-10">
+   
+      <a class="navbar-brand text-blue-600" href="/">
+        <img src={logo} alt="multimo" class="w-10 h-10 ml-2 lg:ml-0 mr-2"/>
+      </a>
+
+    </div>
+
+    <ul class="list-none flex justify-end items-center flex-1">
+    {navLinks.map((nav, index) => (
+      <li class={`font-poppins font-normal cursor-pointer text-[16px]
+        ${Astro.url.pathname === nav.id ? "bg-gray-200" : "text-dimWhite"}
+        ${index === navLinks.length - 1 ? "mr-0" : "mr-2"}`
+      }>
+        <a
+          type="button"
+          data-mdb-ripple="true"
+          data-mdb-ripple-color="gray"
+          href={`${nav.id}`} class="inline-block px-3 py-2.5 bg-transparent font-medium text-xs leading-tight uppercase rounded hover:text-white hover:bg-gray-400 focus:bg-gray-200 focus:outline-none focus:ring-0 active:bg-gray-200 transition duration-150 ease-in-out"
+          target={`${ (nav.id.charAt(0) != "/") ? "_blank": "_self" }`}
+        >
+          {nav.title}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  </div>
+</nav>

@@ -1,0 +1,36 @@
+---
+
+import Layout from '../../layouts/Layout.astro';
+
+import Dropdown from '../../components/demo/Dropdown'; 
+import { CustomResponsiveBar, CustomResponsiveSunburst} from '../../components/demo/Graph';
+import GraphSwitch from '../../components/demo/Switch';
+
+---
+
+<Layout title="Demo">
+  <div class="flex items-center justify-center ">
+    {["indexBy", "keyBy"].map((axis) => (
+      <div class="px-2 py-5 text-sm">
+        {axis}
+        <Dropdown client:visible axis={axis}></Dropdown>
+      </div>
+    ))}
+    <div class="px-2 py-5 text-sm">
+        <GraphSwitch client:visible></GraphSwitch>
+    </div>
+  </div>
+  
+  <div class="h-2/5">
+    <CustomResponsiveBar client:visible></CustomResponsiveBar>
+  </div>
+  <div class="h-2/5">
+    <CustomResponsiveSunburst client:visible></CustomResponsiveSunburst>
+  </div>
+</Layout>
+
+<script>
+import { update } from "../../components/demo/graph-store"
+
+update()
+</script>

@@ -1,7 +1,12 @@
 # https://makefiletutorial.com/
 
-compile:
-	tsc
+.PHONY: dev build serve
 
-run-dev:
+dev:
 	npm run dev
+
+build:
+	npm run build
+
+serve:
+	node ./dist/server/entry.mjs

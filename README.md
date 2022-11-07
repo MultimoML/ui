@@ -1,38 +1,71 @@
-# RSOcena UI
+# UI
 
-RSOcena's UI: [rsocena.ml](https://rsocena.ml)
+Accessable from [multimo.ml](https://multimo.ml).
 
 ## Project description
 
-Data visualisation website. Made using p5, Bootstrap, Plotly in TypeScript with Parcel.
+Data visualisation website. Made using Astro, React, TailwindCSS and Plotly.js.
 
 Author: [Miha Krumpestar](https://github.com/mk2376)
 
-## Setup/installation
-
-Npm:
+Initialized using:
 ```
-# After clone
+npm create astro@latest
+
+npx astro add tailwind
+npx astro add node
+npx astro add react
+
+npm install nanostores @nanostores/react # State management
+
+npm install @nivo/core @nivo/bar @nivo/sunburst # charting library
+npm install papaparse @types/papaparse # Csv parser
+
+npm i @headlessui/react # Component library
+npm install react-feather # Icons
+```
+
+After cloning the repository, run:
+```
 npm install
-
-# Deps (only for dev):
-npm install -g typescript
-npm install -g parcel
-
-npm install --save p5 @types/p5
-npm install --save bootstrap @types/bootstrap
-npm install --save plotly.js-dist-min @types/plotly.js-dist-min
 ```
 
-Run:
+Performance testing:
 ```
-npm run start
+lighthouse http://localhost:3000/ --view
 ```
 
-Build:
+Upgrading `npm` packages:
 ```
-npm run build
+npm install -g npm-check-updates
+ncu
+ncu -u
+npm i --force
 ```
+
+## 🚀 Project Structure
+
+Inside of your Astro project, you'll see the following folders and files:
+
+```
+/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── components/
+│   │   └── Card.astro
+│   ├── layouts/
+│   │   └── Layout.astro
+│   └── pages/
+│       └── index.astro
+└── package.json
+```
+
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+
+Any static assets, like images, can be placed in the `public/` directory.
 
 ## License
 
