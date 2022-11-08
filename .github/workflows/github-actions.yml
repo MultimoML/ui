@@ -11,7 +11,7 @@ env:
 
 jobs:
   build-and-push-image:
-    if: "contains(github.event.head_commit.message, 'build')"
+    if: "contains(github.event.head_commit.message, '!build!')"
     name: Build and push image to Github registry
     runs-on: ubuntu-latest
     permissions:
@@ -42,3 +42,37 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+  
+  deploy:
+    if: "contains(github.event.head_commit.message, '!deploy!')"
+    # needs: build-and-push-image
+    runs-on: ubuntu-latest
+    env:
+      ACME_EMAIL: ${{ ACME_EMAIL }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Prerequisite for deployment
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          fingerprint: ${{ secrets.SSH_PUBLIC_KEY }}
+          script: |
+            touch /opt/traefik/acme.json
+            chmod 600 /opt/traefik/acme.json
+
+      - name: Deploy to server using Docker Compose
+        uses: TapTap21/docker-remote-deployment-action@v1.1
+        with:
+          remote_docker_host: ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+          stack_file_name: docker-compose.yml
+          docker_login_password: ${{ secrets.GITHUB_TOKEN }}
+          docker_login_user: ${{ github.actor }}
+          docker_login_registry : ${{ env.REGISTRY }}
+          args: up -d --remove-orphans
+      
