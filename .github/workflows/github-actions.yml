@@ -54,7 +54,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      #- name: Prerequisite for deployment
+      #- name: Prerequisite for deployment.
       #  uses: appleboy/ssh-action@master
       #  with:
       #    host: ${{ secrets.SSH_HOST }}
