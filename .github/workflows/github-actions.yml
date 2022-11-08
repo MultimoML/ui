@@ -48,7 +48,7 @@ jobs:
     # needs: build-and-push-image
     runs-on: ubuntu-latest
     env:
-      ACME_EMAIL: ${{ ACME_EMAIL }}
+      ACME_EMAIL: ${{ secrets.ACME_EMAIL }}
 
     steps:
       - uses: actions/checkout@v3
