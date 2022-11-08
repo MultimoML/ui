@@ -59,7 +59,6 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          fingerprint: ${{ secrets.SSH_PUBLIC_KEY }}
           script: |
             touch /opt/traefik/acme.json
             chmod 600 /opt/traefik/acme.json
