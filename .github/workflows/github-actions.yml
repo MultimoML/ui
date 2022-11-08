@@ -68,9 +68,9 @@ jobs:
       - name: Deploy to server using Docker Compose
         uses: TapTap21/docker-remote-deployment-action@v1.1
         with:
-          remote_docker_host: ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+          remote_docker_host: "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}"
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+          ssh_public_key: "${{ secrets.SSH_PUBLIC_KEY }}"
           stack_file_name: docker-compose.yml
           docker_login_password: ${{ secrets.GITHUB_TOKEN }}
           docker_login_user: ${{ github.actor }}
