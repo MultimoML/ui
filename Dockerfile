@@ -13,8 +13,6 @@ RUN make build
 
 FROM node:alpine
 
-RUN apk add --no-cache make
-
 WORKDIR /usr/src/app
 
 COPY --from=node-build /usr/src/app/dist ./dist
@@ -31,4 +29,4 @@ ENV PORT="3000"
 
 EXPOSE ${PORT}
 
-CMD [ "make", "serve" ]
+CMD [ "node", "./dist/server/entry.mjs" ]
