@@ -23,6 +23,10 @@ test: # Do not use
 	docker image ls
 	docker image prune -a
 
+	cd deployments/ui/
+	openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -out cert.pem -keyout key.pem
+	docker-compose up -d --remove-orphans
+
 performance-test:
 	lighthouse http://localhost:3000/ --view
 
