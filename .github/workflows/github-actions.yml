@@ -65,15 +65,14 @@ jobs:
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
+        env:
+          docker_login_password: ${{ secrets.GITHUB_TOKEN }}
+          docker_login_user: ${{ github.actor }}
+          docker_login_registry : ${{ env.REGISTRY }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-          docker_login_password: ${{ secrets.GITHUB_TOKEN }}
-          docker_login_user: ${{ github.actor }}
-          docker_login_registry : ${{ env.REGISTRY }}
-
           script: |
             echo $docker_login_password | docker login $docker_login_registry -u $docker_login_user --password-stdin
             cd deployments/ui/
