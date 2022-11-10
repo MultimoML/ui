@@ -66,16 +66,17 @@ jobs:
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         env:
-          docker_login_password: ${{ secrets.GITHUB_TOKEN }}
-          docker_login_user: ${{ github.actor }}
-          docker_login_registry : ${{ env.REGISTRY }}
+          DOCKER_LOGIN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_LOGIN_USER: ${{ github.actor }}
+          DOCKER_LOGIN_REGISTRY : ${{ env.REGISTRY }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo $docker_login_password | docker login $docker_login_registry -u $docker_login_user --password-stdin
+            echo "$DOCKER_LOGIN_PASSWORD" | docker login "$DOCKER_LOGIN_REGISTRY" -u "$DOCKER_LOGIN_USER" --password-stdin
             cd deployments/ui/
-            docker-compose up -d --quiet-pull
-            docker logout
+            docker-compose pull
+            docker-compose up -d
+            docker logout ghcr.io
       
