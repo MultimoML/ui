@@ -73,8 +73,10 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: DOCKER_LOGIN_PASSWORD,DOCKER_LOGIN_USER,DOCKER_LOGIN_REGISTRY
+          script_stop: true
           script: |
-            echo ${{ secrets.GITHUB_TOKEN }} | docker login ${{ env.REGISTRY }} -u ${{ secrets.SSH_USERNAME }} --password-stdin
+            echo $DOCKER_LOGIN_PASSWORD | docker login $DOCKER_LOGIN_REGISTRY -u $DOCKER_LOGIN_USER --password-stdin
             cd deployments/ui/
             docker-compose pull
             docker-compose up -d
