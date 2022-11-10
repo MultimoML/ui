@@ -13,11 +13,13 @@ RUN make build
 
 FROM node:alpine
 
+RUN apk add --no-cache make
+
 WORKDIR /usr/src/app
 
 COPY --from=node-build /usr/src/app/dist ./dist
 COPY --from=node-build /usr/src/app/node_modules ./node_modules
-COPY --from=node-build /usr/src/app/Makefile .
+COPY --from=node-build /usr/src/app/Makefile ./Makefile
 
 LABEL project="UI"
 LABEL author="Miha Krumpestar"
@@ -29,4 +31,4 @@ ENV PORT="3000"
 
 EXPOSE ${PORT}
 
-CMD [ "node", "./dist/server/entry.mjs" ]
+ENTRYPOINT [ "make", "serve" ]
