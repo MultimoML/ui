@@ -26,6 +26,7 @@ test: # Do not use
 	cd deployments/ui/
 	openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -out cert.pem -keyout key.pem
 	sudo usermod -a -G docker $USER
+	grep docker /etc/group
 	docker logs ui
 
 performance-test:
