@@ -2,12 +2,10 @@
 
 FROM node:alpine as node-build
 
-RUN apk add --no-cache make
-
 WORKDIR /usr/src/app
 COPY . /usr/src/app/
 RUN npm install
-RUN make build
+RUN npm run build
 
 # ---> Serve stage
 

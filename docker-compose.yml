@@ -2,14 +2,17 @@ version: '3.3'
 
 services:
   ui:
-    image: ghcr.io/rsocena/ui:main
+    image: multimoml/ui:latest # ghcr.io/
     container_name: ui
-    environment:
-      - SERVER_KEY_PATH=/usr/src/app/key.pem
-      - SERVER_CERT_PATH=/usr/src/app/cert.pem
-    volumes:
-      - ./key.pem:/usr/src/app/key.pem
-      - ./cert.pem:/usr/src/app/cert.pem
-    ports:
-       - 443:3000
-    restart: always
+    restart: unless-stopped
+    networks:
+      - traefik-proxy
+    labels:
+      traefik.enable: true
+      traefik.http.routers.ui.entrypoints: https
+      traefik.http.routers.ui.rule: Host(`${DOMAIN}`)
+      traefik.http.services.ui.loadbalancer.server.port: 3000
+
+networks:
+  traefik-proxy:
+    external: true

@@ -30,14 +30,9 @@ After cloning the repository, run:
 npm install
 ```
 
-Performance testing:
-```
-lighthouse http://localhost:3000/ --view
-```
-
 Upgrading `npm` packages:
 ```
-npm install -g npm-check-updates
+sudo npm install -g npm-check-updates
 ncu
 ncu -u
 npm i --force
