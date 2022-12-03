@@ -64,4 +64,4 @@ Any static assets, like images, can be placed in the `public/` directory.
 
 ## License
 
-RSOcena is licensed under the [GNU AGPLv3 license](LICENSE).
+Project is licensed under the [GNU AGPLv3 license](LICENSE).

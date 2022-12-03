@@ -1,0 +1,27 @@
+name: Build a tagged Docker image and publish it
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Log into GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          file: ./Dockerfile
+          push: true
+          tags: ghcr.io/multimoml/ui:v1.0.0,ghcr.io/multimoml/ui:latest
+      
