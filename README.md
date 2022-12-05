@@ -23,6 +23,9 @@ npm install papaparse @types/papaparse # Csv parser
 
 npm i @headlessui/react # Component library
 npm install react-feather # Icons
+
+npm install --save @speechly/react-client
+npm install --save @speechly/react-ui
 ```
 
 After cloning the repository, run:

@@ -1,7 +1,7 @@
 ---
 
 import Layout from '../../layouts/Layout.astro';
-// import Dictaphone from '../../components/Speech-recognition.jsx';
+import SpeechToText from '../../components/extractor/SpeechlyApp.jsx';
 
 const response = await fetch('https://multimo.ml/extractor/v1/info');
 const extractorInfo = await response.json();
@@ -13,9 +13,9 @@ const extractorInfo = await response.json();
 
 <Layout title="Extractor-timer">
 
-  <!-- 
-     <Dictaphone client:load></Dictaphone>
 
+     <SpeechToText client:load></SpeechToText>
+  <!-- 
   <code class="grid h-screen place-items-center">
   { JSON.stringify(extractorInfo) }
   { Object.entries(extractorInfo) }
@@ -57,7 +57,7 @@ const extractorInfo = await response.json();
       type="button" 
       class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
       >
-        Refresh
+        Refresh (hint: use microphone and say "refresh")
     </button>
   </div>
 </div>
