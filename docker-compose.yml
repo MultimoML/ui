@@ -8,7 +8,7 @@ services:
     networks:
       - traefik-proxy
     environment:
-     PUBLIC_SPEECHLY_APPID: ${PUBLIC_SPEECHLY_APPID}
+     PUBLIC_SPEECHLY_APPID: ${PUBLIC_SPEECHLY_APPID} # does not work
     labels:
       traefik.enable: true
       traefik.http.routers.ui.entrypoints: https

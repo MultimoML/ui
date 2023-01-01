@@ -1,12 +1,10 @@
-# https://makefiletutorial.com/
-
 ver =
 
-all: help
+all: build
 
-.PHONY: help run build compose build-deploy tag release
+.PHONY: help server run build tag tidy release
 
-help: ## Prints the help menu
+help: ## Print the help menu
 	@echo Usage: make [command]
 	@echo
 	@echo Commands:
@@ -14,26 +12,26 @@ help: ## Prints the help menu
 		| awk 'BEGIN {FS = ":.*?## "}; {printf"  \033[36m%-30s\033[0m%s\n", $$1, $$2}'
 
 
-run: ## Runs the microservice
-	npm run dev
+proto: ## Generate proto files
+	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative internal/proto/config.proto
 
-build: ## Builds the Docker image
-    ifeq (, $(shell groups | grep docker))
-		sudo docker build -t multimoml/ui:latest .
-    else
-		docker build -t multimoml/ui:latest .
-    endif
+server: proto ## Run the microservice locally
+	swag init
+	go run main.go
 
-compose: ## Deploy the microservice using Docker Compose
-    ifeq (, $(shell groups | grep docker))
-		sudo docker-compose -f docker-compose.yml --env-file .env up -d --force-recreate
-    else
-		docker-compose -f docker-compose.yml --env-file .env up -d --force-recreate
-    endif
+run: build ## Run the microservice in a container
+	docker run -p 6001:6001 -v $(shell pwd)/.env:/.env -d ghcr.io/multimoml/ui:latest
 
-build-deploy: build compose ## Builds and deploys the microservice
+build: proto tidy ## Build the Docker image
+	docker build -t ghcr.io/multimoml/ui:latest .
 
-tag: ## Updates the project version and creates a Git tag with a changelog
+push: build ## Manually push the Docker image
+	docker push ghcr.io/multimoml/ui:latest
+
+deploy: push ## Manually deploy the microservice to the Kubernetes cluster
+	kubectl apply -f k8s/deployment.yml
+
+tag: ## Update the project version and create a Git tag with a changelog
     ifndef ver
 		git tag -l
     else
@@ -50,5 +48,9 @@ tag: ## Updates the project version and creates a Git tag with a changelog
 		rm changelog.txt
     endif
 
+tidy: ## Update dependencies
+	go mod tidy
+
 release: tag ## Create a new release and push it
-	git push --follow-tags
+	git fetch . main:prod
+	git push --follow-tags origin main prod
