@@ -12,17 +12,10 @@ help: ## Print the help menu
 		| awk 'BEGIN {FS = ":.*?## "}; {printf"  \033[36m%-30s\033[0m%s\n", $$1, $$2}'
 
 
-proto: ## Generate proto files
-	protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative internal/proto/config.proto
-
-server: proto ## Run the microservice locally
-	swag init
-	go run main.go
-
 run: build ## Run the microservice in a container
-	docker run -p 6001:6001 -v $(shell pwd)/.env:/.env -d ghcr.io/multimoml/ui:latest
+	docker run -p 3000:3000 -v $(shell pwd)/.env:/.env -d ghcr.io/multimoml/ui:latest
 
-build: proto tidy ## Build the Docker image
+build: ## Build the Docker image
 	docker build -t ghcr.io/multimoml/ui:latest .
 
 push: build ## Manually push the Docker image
