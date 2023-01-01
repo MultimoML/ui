@@ -6,8 +6,6 @@ Accessable from [multimo.ml](https://multimo.ml).
 
 Data visualisation website. Made using Astro, React, TailwindCSS and Plotly.js.
 
-Author: [Miha Krumpestar](https://github.com/mk2376)
-
 Initialized using:
 ```
 npm create astro@latest
