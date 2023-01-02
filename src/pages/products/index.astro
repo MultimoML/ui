@@ -1,0 +1,14 @@
+---
+
+import Layout from '../../layouts/Layout.astro';
+import SpeechToText from '../../components/products/SpeechlyApp';
+import DataGrid from '../../components/products/DataGrid';
+
+---
+
+<Layout title="Products">
+
+     <SpeechToText client:load></SpeechToText>
+     <DataGrid client:load></DataGrid>
+
+</Layout>
