@@ -28,7 +28,7 @@ jobs:
         with:
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/multimoml/ui:latest,ghcr.io/multimoml/ui:latest
+          tags: ghcr.io/multimoml/ui:v1.0.0,ghcr.io/multimoml/ui:latest
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
