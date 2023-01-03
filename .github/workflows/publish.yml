@@ -42,7 +42,7 @@ jobs:
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 prod
 
       - name: Deploy to DigitalOcean Kubernetes
-        run: kubectl apply -f k8s/deployment.yml
+        run: kubectl apply -f k8s/deployment.yaml
 
       - name: Verify deployment
         run: kubectl rollout status deployment/ui
