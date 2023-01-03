@@ -1,4 +1,4 @@
-import { allTasks,  map, MapStore, onMount, task } from 'nanostores';
+import { map } from 'nanostores';
 import { fakeJsonData } from './fakeData';
 
 export interface PriceInTime {
@@ -16,48 +16,62 @@ export interface PriceInTime {
 export interface DataGridRow {
   id:                      number;
   name:                    string;
-  // "category-names":        string[];
+  "category-names":        string[];
   "category-name":         string;
-  // "allergens-filter":      string[] | null;
-  // "sales-unit":            string;
+  "allergens-filter":      string[] | null;
+  "sales-unit":            string;
   title:                   string;
   "code-internal":         number;
   "created-at":            string;
-  // "image-url":             string;
-  // "approx-weight-product": boolean;
+  "image-url":             string;
+  "approx-weight-product": boolean;
   url:                     string;
   brand:                   string;
   "price-in-time":         PriceInTime[];
 }
 
-export interface Query {
-  category: string | null,
-  history: string,
-}
-
 export type DataGridType = {
   rows: DataGridRow[],
   sortModel: any,
-  query: Query,
+  queryCategory: string | undefined,
+  queryHistory: string,
   queryURL: string,
-  productID: number | null,
+  id: number | null,
   productURL: string,
+  productData: DataGridRow | null,
+  qrURL: string,
+  qrData: any,
 }
 
 export const dataGridStore = map<DataGridType>({
   rows: [],
   sortModel: null,
-  query: {
-    category: "null",
-    history: "last",
-  },
+  queryCategory: "null",
+  queryHistory: "last",
   queryURL: "https://multimo.ml/products/v1/all",
-  productID: null,
-  productURL: "https://multimo.ml/products/v1/",
+  id: null,
+  productURL: "https://multimo.ml/products/v1/", // :id
+  productData: null,
+  qrURL: "https://multimo.ml/qr/", // :id
+  qrData: null,
 });
+
+dataGridStore.listen((value, changed) => {
+  console.log(`dataGridStore.listen: ${changed} new value ${value[changed]}`)
+
+  if (changed === "queryCategory") {
+    updateRows()
+  }
+
+  if (changed === "id") {
+    updateProductAndQR()
+  }
+})
 
 
 export function setSortModel(sortName?: string, sortDirection?: 'asc'| 'desc') {
+  console.log("setSortModel")
+
   let sortModel = [
     {
       field: sortName,
@@ -71,13 +85,13 @@ export function setSortModel(sortName?: string, sortDirection?: 'asc'| 'desc') {
 }
 
 export async function updateRows() {
+  console.log("updateRows")
 
   const dataGrid = dataGridStore.get()
 
-  if (dataGrid.query.category == null) return;
+  if (dataGrid.queryCategory == null) return;
 
-  const completeURL = `${dataGrid.queryURL}?category=${dataGrid.query.category}&history=${dataGrid.query.history}`
-  
+  const completeURL = `${dataGrid.queryURL}?category=${dataGrid.queryCategory}&history=${dataGrid.queryHistory}`
   let rows: DataGridRow[] = []
   
   const response = await fetch(completeURL).catch(error => {
@@ -92,3 +106,40 @@ export async function updateRows() {
 
   dataGridStore.setKey("rows", rows)
 }
+
+export async function updateProductAndQR() {
+  console.log("updateProductAndQR")
+
+  const dataGrid = dataGridStore.get()
+
+  if (dataGrid.id == null) return;
+  
+  const responseProduct = await fetch(dataGrid.productURL+dataGrid.id).catch(error => {
+    console.debug(error)
+  });
+
+  let productBody: DataGridRow
+
+  if (responseProduct && responseProduct.ok) {
+    productBody = await responseProduct.json();
+  } else {
+    return;
+  }
+
+  dataGridStore.setKey("productData", productBody)
+
+  const responseQR = await fetch(dataGrid.qrURL+dataGrid.id).catch(error => {
+    console.debug(error)
+  });
+
+  let qrBody: any
+
+  if (responseQR && responseQR.ok) {
+    qrBody = await responseQR.json();
+  } else {
+    return;
+  }
+
+  dataGridStore.setKey("qrData", qrBody)
+}
+
