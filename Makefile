@@ -16,7 +16,7 @@ run: build ## Run the microservice in a container
 	docker run -p 3000:3000 -v $(shell pwd)/.env:/.env -d ghcr.io/multimoml/ui:latest
 
 build: ## Build the Docker image
-	docker build -t ghcr.io/multimoml/ui:latest .
+	sudo docker build -t ghcr.io/multimoml/ui:latest .
 
 push: build ## Manually push the Docker image
 	docker push ghcr.io/multimoml/ui:latest

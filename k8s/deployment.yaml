@@ -31,13 +31,6 @@ spec:
             port: server
           initialDelaySeconds: 10
           periodSeconds: 3
-      metrics:
-        - type: Resource
-          resource:
-            name: cpu
-            target:
-              type: Utilization
-              averageUtilization: 50
       terminationGracePeriodSeconds: 10
 
 ---
