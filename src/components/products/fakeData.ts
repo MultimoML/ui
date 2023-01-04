@@ -2,7 +2,7 @@
 
 export const fakeJsonData = [
     {
-      "id": 250616,
+      "id": "000000000250616",
       "name": "SPAR KEKSI SPEKULAAS 400G",
       "category-names": [
         "SLADKI IN SLANI PRIGRIZKI",
@@ -45,7 +45,7 @@ export const fakeJsonData = [
       ]
     },
     {
-      "id": 594652,
+      "id": "0000000000594652",
       "name": "SPAR EKO VREČKE ZA SMETI 35L",
       "category-names": [
         "VSI IZDELKI",

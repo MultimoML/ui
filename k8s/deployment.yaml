@@ -15,6 +15,13 @@ spec:
       containers:
       - name: ui
         image: ghcr.io/multimoml/ui:latest
+        env:
+        - name: PUBLIC_SPEECHLY_APPID
+          valueFrom:
+            secretKeyRef:
+              key: public_speechly_appid
+              name: speechly-credentials
+
         ports:
         - containerPort: 3000
           name: server

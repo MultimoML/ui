@@ -7,22 +7,22 @@ export default function DataGridComponent() {
   const $dataGridStore = useStore(dataGridStore);
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', type: 'number', width: 70 },
-    { field: 'name', headerName: 'Name', width: 130 },
-    { field: 'category-name', headerName: 'Category name', width: 130 },
-    { field: 'code-internal', headerName: 'Code internal', type: 'number', width: 90 },
-    { field: 'created-at', headerName: 'Created at', width: 90 },
-    { field: 'url', headerName: 'URL', width: 90 },
-    { field: 'brand', headerName: 'Brand', width: 90 },
-    { field: 'price-in-time.timestamp', headerName: 'Timestamp', width: 90 },
-    { field: 'price-in-time.is-on-promotion', headerName: 'Is on promotion', width: 90 },
-    { field: 'price-in-time.price', headerName: 'Price', type: 'number', width: 90 },
-    { field: 'price-in-time.price-per-unit', headerName: 'Price per unit', width: 90 },
-    { field: 'price-in-time.regular-price', headerName: 'Regular price', type: 'number', width: 90 },
-    { field: 'price-in-time.price-per-unit-number', headerName: 'Price per unit number', type: 'number', width: 90 },
-    { field: 'price-in-time.best-price', headerName: 'Best price', type: 'number', width: 90 },
-    { field: 'price-in-time.stock-status', headerName: 'Stock status', width: 90 },
-    { field: 'price-in-time.is-new', headerName: 'Is new', width: 90 },
+    { field: 'id', headerName: 'ID', type: 'string', width: 240 },
+    { field: 'name', headerName: 'Name', width: 270 },
+    { field: 'category-name', headerName: 'Category name', width: 170 },
+    { field: 'code-internal', headerName: 'Code internal', type: 'number', width: 140 },
+    { field: 'created-at', headerName: 'Created at', width: 120 },
+    { field: 'url', headerName: 'URL', width: 400 },
+    { field: 'brand', headerName: 'Brand', width: 120 },
+    { field: 'price-in-time.timestamp', headerName: 'Timestamp', width: 120 },
+    { field: 'price-in-time.is-on-promotion', headerName: 'Is on promotion', width: 120 },
+    { field: 'price-in-time.price', headerName: 'Price', type: 'number', width: 120 },
+    { field: 'price-in-time.price-per-unit', headerName: 'Price per unit', width: 120 },
+    { field: 'price-in-time.regular-price', headerName: 'Regular price', type: 'number', width: 120 },
+    { field: 'price-in-time.price-per-unit-number', headerName: 'Price per unit number', type: 'number', width: 120 },
+    { field: 'price-in-time.best-price', headerName: 'Best price', type: 'number', width: 120 },
+    { field: 'price-in-time.stock-status', headerName: 'Stock status', width: 120 },
+    { field: 'price-in-time.is-new', headerName: 'Is new', width: 120 },
     /* {
       field: 'fullName',
       headerName: 'Full name',
@@ -34,10 +34,8 @@ export default function DataGridComponent() {
     }, */
   ];
 
-  updateRows()
-
   function onCellClick(params: GridCellParams, event: MuiEvent<React.MouseEvent>, details: GridCallbackDetails) {
-    const id = Number(params.id.toString())
+    const id = params.id.toString()
 
     console.log("selected id", id)
     dataGridStore.setKey("id", id)
@@ -71,7 +69,7 @@ export default function DataGridComponent() {
  
         <div className='h-full w-full p-6'>
           <DataGrid
-            rows={$dataGridStore.rows.map(x => flattenObj(x))}
+            rows={ $dataGridStore.rows ? $dataGridStore.rows.map(x => flattenObj(x)): []}
             columns={columns}
             // autoHeight={true} // doesn't work
             autoPageSize={true}
@@ -85,8 +83,8 @@ export default function DataGridComponent() {
       </div>
 
       <div className='h-1/2 flex items-center justify-center'>
-        <code>{ $dataGridStore.productData != null ? JSON.stringify($dataGridStore.productData): "" }</code>
-        <img src={$dataGridStore.qrData} />
+        <code className="p-6">{ $dataGridStore.productData != null ? JSON.stringify($dataGridStore.productData): "" }</code>
+        <img className="p-6" src={$dataGridStore.qrData} />
       </div>
     </>
   );

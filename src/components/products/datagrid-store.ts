@@ -14,7 +14,7 @@ export interface PriceInTime {
 }
 
 export interface DataGridRow {
-  id:                      number;
+  id:                      string;
   name:                    string;
   "category-names":        string[];
   "category-name":         string;
@@ -36,7 +36,7 @@ export type DataGridType = {
   queryCategory: string | undefined,
   queryHistory: string,
   queryURL: string,
-  id: number | null,
+  id: string | null,
   productURL: string,
   productData: DataGridRow | null,
   qrURL: string,
@@ -52,18 +52,22 @@ export const dataGridStore = map<DataGridType>({
   id: null,
   productURL: "https://multimo.ml/products/v1/", // :id
   productData: null,
-  qrURL: "https://multimo.ml/qr/", // :id
+  qrURL: "https://multimo.ml/qr/v1/", // :id
   qrData: null,
 });
+
+updateRows()
 
 dataGridStore.listen((value, changed) => {
   console.log(`dataGridStore.listen: ${changed} new value ${value[changed]}`)
 
   if (changed === "queryCategory") {
+    console.log("changed === queryCategory")
     updateRows()
   }
 
   if (changed === "id") {
+    console.log("changed === id")
     updateProductAndQR()
   }
 })
@@ -113,7 +117,7 @@ export async function updateProductAndQR() {
   const dataGrid = dataGridStore.get()
 
   if (dataGrid.id == null) return;
-  
+
   const responseProduct = await fetch(dataGrid.productURL+dataGrid.id).catch(error => {
     console.debug(error)
   });
@@ -135,11 +139,17 @@ export async function updateProductAndQR() {
   let qrBody: any
 
   if (responseQR && responseQR.ok) {
-    qrBody = await responseQR.json();
+    qrBody = await responseQR.blob();
   } else {
     return;
   }
 
-  dataGridStore.setKey("qrData", qrBody)
+  let reader = new FileReader();
+  reader.readAsDataURL(qrBody);
+  reader.onloadend = function () {
+    let base64String = reader.result;
+
+    dataGridStore.setKey("qrData", base64String)
+  }
 }
 
