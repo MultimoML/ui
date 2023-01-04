@@ -5,6 +5,7 @@ FROM node:alpine as build
 WORKDIR /usr/src/app
 
 COPY . .
+COPY .env .env
 RUN npm install
 RUN npm run build
 

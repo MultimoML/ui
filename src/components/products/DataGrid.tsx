@@ -1,7 +1,7 @@
 import { DataGrid, GridCallbackDetails, GridCellParams, GridColDef, MuiEvent } from '@mui/x-data-grid';
 import { useStore } from '@nanostores/react';
 import CategoryNameButton from './CategoryNameButton';
-import { dataGridStore, updateRows } from './datagrid-store';
+import { dataGridStore } from './datagrid-store';
 
 export default function DataGridComponent() {
   const $dataGridStore = useStore(dataGridStore);
@@ -82,9 +82,9 @@ export default function DataGridComponent() {
         </div>
       </div>
 
-      <div className='h-1/2 flex items-center justify-center'>
+      <div className='flex justify-center'>
         <code className="p-6">{ $dataGridStore.productData != null ? JSON.stringify($dataGridStore.productData): "" }</code>
-        <img className="p-6" src={$dataGridStore.qrData} />
+        <img className="p-6 w-96 h-96 shadow-none" src={$dataGridStore.qrData} />
       </div>
     </>
   );

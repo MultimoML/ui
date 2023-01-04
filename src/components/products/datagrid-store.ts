@@ -118,7 +118,7 @@ export async function updateProductAndQR() {
 
   if (dataGrid.id == null) return;
 
-  const responseProduct = await fetch(dataGrid.productURL+dataGrid.id).catch(error => {
+  const responseProduct = await fetch(dataGrid.productURL+dataGrid.id+"?history=full").catch(error => {
     console.debug(error)
   });
 
