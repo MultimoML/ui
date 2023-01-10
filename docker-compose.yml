@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   ui:
-    image: multimoml/ui:latest # ghcr.io/
+    image: ghcr.io/multimoml/ui:latest
     container_name: ui
     restart: unless-stopped
     networks:
@@ -12,7 +12,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.ui.entrypoints: https
-      traefik.http.routers.ui.rule: Host(`${DOMAIN}`)
+      traefik.http.routers.ui.rule: Host(`multimo.ml`)
       traefik.http.services.ui.loadbalancer.server.port: 3000
 
 networks:
